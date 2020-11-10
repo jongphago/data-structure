@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 
 // 5.2 BINARY TREES
 typedef struct Node* treePointer;
@@ -9,10 +10,10 @@ typedef struct Node
 	treePointer rightChild;
 }Node;
 
-treePointer createBinTree()
+treePointer initBinTree(int item)
 {
 	treePointer node = malloc(sizeof(Node));
-	node->data = NULL;
+	node->data = item;
 	node->leftChild = NULL;
 	node->rightChild = NULL;
 	return node;
@@ -26,14 +27,51 @@ treePointer makeBinTree(int item,  treePointer leftTree, treePointer rightTree)
 	node->rightChild = rightTree;
 	return node;
 }
-treePointer getLeftChild(treePointer tree);
-treePointer getRightChild(treePointer tree);
-int getElement(treePointer tree);
+treePointer getLeftChild(treePointer tree)
+{
+	treePointer tempTree = tree->leftChild;
+	return tempTree;
+}
+treePointer getRightChild(treePointer tree)
+{
+	treePointer tempTree = tree->rightChild;
+	return tempTree;
+}
+int getElement(treePointer tree)
+{
+	int item = tree->data;
+	return item;
+}
 
 // 5.3 BINARY TREE TRAVERSALS
-void inorder(treePointer ptr);
-void preorder(treePointer ptr);
-void postorder(treePointer ptr);
+void inorder(treePointer ptr)
+{
+	//while (ptr != NULL)
+	if (ptr)
+	{
+		inorder(ptr->leftChild);
+		printf("%d ", getElement(ptr));
+		inorder(ptr->rightChild);
+	}
+}
+void preorder(treePointer ptr)
+{
+	if (ptr)
+	{
+		printf("%d ", getElement(ptr));
+		inorder(ptr->leftChild);
+		inorder(ptr->rightChild);
+	}
+}
+void postorder(treePointer ptr)
+{
+	if (ptr)
+	{
+		inorder(ptr->leftChild);
+		inorder(ptr->rightChild);
+		printf("%d ", getElement(ptr));
+	}
+}
 void iter_inorder(treePointer node);
 void level_order(treePointer ptr);
 
@@ -55,5 +93,23 @@ void postOrderEval(satiPointer node);
 
 void main()
 {
+	treePointer node2 = initBinTree(2);
+	treePointer node3 = initBinTree(3);
+	treePointer node1 = makeBinTree(1, node2, node3);
+
+	treePointer tree1 = getRightChild(node1);
+	treePointer tree2 = getLeftChild(node1);
+	int item = getElement(node1);
+	printf("%d\n", tree1->data);
+	printf("%d\n", tree2->data);
+	printf("%d\n", item);
+
+	inorder(node1);
+	printf("\n");
+	preorder(node1);
+	printf("\n");
+	postorder(node1);
+	printf("\n");
+
 	return;
 }
