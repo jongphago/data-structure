@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>  
+<response>  
+<comMsgHeader/>  
+<msgHeader>  
+<queryTime>2020-11-03 19:53:48.968</queryTime>  
+<resultCode>0</resultCode>  
+<resultMessage>정상적으로 처리되었습니다.</resultMessage>  
+</msgHeader>  
+<msgBody>  
+<busRouteList>  
+<districtCd>2</districtCd>  
+<regionName>서울,성남</regionName>  
+<routeId>234000002</routeId>  
+<routeName>9000</routeName>  
+<routeTypeCd>11</routeTypeCd>  
+<routeTypeName>직행좌석형시내버스</routeTypeName>  
+</busRouteList>  
+<busRouteList>  
+<districtCd>2</districtCd>  
+<regionName>김포,인천</regionName>  
+<routeId>232000099</routeId>  
+<routeName>9000</routeName>  
+<routeTypeCd>11</routeTypeCd>  
+<routeTypeName>직행좌석형시내버스</routeTypeName>  
+</busRouteList>  
+<busRouteList>  
+<districtCd>2</districtCd>  
+<regionName>서울,성남,용인</regionName>  
+<routeId>234001574</routeId>  
+<routeName>9000-1</routeName>  
+<routeTypeCd>11</routeTypeCd>  
+<routeTypeName>직행좌석형시내버스</routeTypeName>  
+</busRouteList>  
+</msgBody>  
+</response>  

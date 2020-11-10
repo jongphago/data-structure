@@ -1,0 +1,11 @@
+●[프로젝트 - 속성 - VC++ 디렉터리 - 포함 디렉터리
+수정전: $(VC_IncludePath);$(WindowsSDK_IncludePath);
+수정후: C:\libcurl\include;$(VC_IncludePath);$(WindowsSDK_IncludePath);
+
+●[프로젝트 - 속성 - VC++ 디렉터리 - 라이브러리 디렉터리
+수정전: $(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86)
+수정후: C:\libcurl\lib\Debug;$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86)
+
+●속성 - 링커 - 입력 - 추가종속성
+수정전: kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)
+수정후: curlib.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)
