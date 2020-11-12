@@ -5,12 +5,12 @@
 typedef struct Node* treePointer;
 typedef struct Node
 {
-	int data;
+	char data;
 	treePointer leftChild;
 	treePointer rightChild;
 }Node;
 
-treePointer initBinTree(int item)
+treePointer initBinTree(char item)
 {
 	treePointer node = malloc(sizeof(Node));
 	node->data = item;
@@ -19,7 +19,7 @@ treePointer initBinTree(int item)
 	return node;
 }
 int IsBinTreeEmpty(treePointer tree);
-treePointer makeBinTree(int item,  treePointer leftTree, treePointer rightTree)
+treePointer makeBinTree(char item,  treePointer leftTree, treePointer rightTree)
 {
 	treePointer node = malloc(sizeof(Node));
 	node->data = item;
@@ -37,39 +37,39 @@ treePointer getRightChild(treePointer tree)
 	treePointer tempTree = tree->rightChild;
 	return tempTree;
 }
-int getElement(treePointer tree)
+char getElement(treePointer tree)
 {
-	int item = tree->data;
+	char item = tree->data;
 	return item;
 }
 
 // 5.3 BINARY TREE TRAVERSALS
-void inorder(treePointer ptr)
+void inOrder(treePointer ptr)
 {
 	//while (ptr != NULL)
 	if (ptr)
 	{
-		inorder(ptr->leftChild);
-		printf("%d ", getElement(ptr));
-		inorder(ptr->rightChild);
+		inOrder(ptr->leftChild);
+		printf("%c ", getElement(ptr));
+		inOrder(ptr->rightChild);
 	}
 }
-void preorder(treePointer ptr)
+void preOrder(treePointer ptr)
 {
 	if (ptr)
 	{
-		printf("%d ", getElement(ptr));
-		inorder(ptr->leftChild);
-		inorder(ptr->rightChild);
+		printf("%c ", getElement(ptr));
+		preOrder(ptr->leftChild);
+		preOrder(ptr->rightChild);
 	}
 }
-void postorder(treePointer ptr)
+void postOrder(treePointer ptr)
 {
 	if (ptr)
 	{
-		inorder(ptr->leftChild);
-		inorder(ptr->rightChild);
-		printf("%d ", getElement(ptr));
+		postOrder(ptr->leftChild);
+		postOrder(ptr->rightChild);
+		printf("%c ", getElement(ptr));
 	}
 }
 void iter_inorder(treePointer node);
@@ -84,7 +84,7 @@ typedef struct satiNode* satiPointer;
 typedef struct satiNode
 {
 	logical data;
-	short int value;
+	char value;
 	satiPointer satiLeft;
 	satiPointer satiRight;
 };
@@ -93,22 +93,22 @@ void postOrderEval(satiPointer node);
 
 void main()
 {
-	treePointer node2 = initBinTree(2);
-	treePointer node3 = initBinTree(3);
-	treePointer node1 = makeBinTree(1, node2, node3);
+	treePointer node1 = initBinTree('A');
+	treePointer node2 = initBinTree('B');
+	treePointer node3 = initBinTree('C');
+	treePointer node4 = initBinTree('D');
+	treePointer node5 = initBinTree('E');
 
-	treePointer tree1 = getRightChild(node1);
-	treePointer tree2 = getLeftChild(node1);
-	int item = getElement(node1);
-	printf("%d\n", tree1->data);
-	printf("%d\n", tree2->data);
-	printf("%d\n", item);
+	treePointer node6 = makeBinTree('/', node1, node2);
+	treePointer node7 = makeBinTree('*', node6, node3);
+	treePointer node8 = makeBinTree('*', node7, node4);
+	treePointer node9 = makeBinTree('+', node8, node5);
 
-	inorder(node1);
+	inOrder(node9);
 	printf("\n");
-	preorder(node1);
+	preOrder(node9);
 	printf("\n");
-	postorder(node1);
+	postOrder(node9);
 	printf("\n");
 
 	return;
