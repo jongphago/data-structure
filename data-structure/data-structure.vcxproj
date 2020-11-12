@@ -21,6 +21,9 @@
   <ItemGroup>
     <ClCompile Include="ch5_tree.c" />
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="ch5_tree.h" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <ProjectGuid>{DF90180F-7430-4E10-BF49-354B6732EB61}</ProjectGuid>

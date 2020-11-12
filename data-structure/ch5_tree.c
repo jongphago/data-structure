@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include "ch5_tree.h"
 
 
 // 5.2 BINARY TREES
@@ -22,7 +23,17 @@ treePointer initBinTree(char item)
 	node->rightChild = NULL;
 	return node;
 }
-int IsBinTreeEmpty(treePointer tree);
+int IsBinTreeEmpty(treePointer tree)
+{
+	if (tree->leftChild == NULL && tree->rightChild == NULL)
+	{
+		return 1;
+	}
+	else
+	{
+		return 0;
+	}
+}
 treePointer makeBinTree(char item,  treePointer leftTree, treePointer rightTree)
 {
 	treePointer node = malloc(sizeof(Node));
@@ -125,7 +136,6 @@ void iter_inorder(treePointer node)
 		node = node->rightChild;
 	}
 }
-
 void level_order(treePointer ptr)
 {
 	int front = 0;
@@ -185,12 +195,14 @@ int isTreeEqual(treePointer firstTree, treePointer secondTree)
 /* function returns FALSE if the binary trees first and
 	second are not equal, otherwise it returns TRUE */
 {
-	return((!firstTree && !secondTree) ||
-		(firstTree && secondTree && (firstTree->data == secondTree->data) &&
-			isTreeEqual(firstTree->leftChild, secondTree->leftChild) &&
-			isTreeEqual(firstTree->rightChild, secondTree->rightChild)));
+	return((!firstTree && !secondTree) ||															// 1. 두 트리가 모두 NULL 이거나,
+		((firstTree && secondTree) &&																	// 2. 두 트리가 모두 NULL이 아니라면
+			(firstTree->data == secondTree->data) &&											//			루트 노드의 값이 같고, 아래의 두 조건을 모든 하위 노드에 대해 만족하면 두 트리는 같다.
+			isTreeEqual(firstTree->leftChild, secondTree->leftChild) &&			//			1) 자식노드의 왼쪽 자식노드가 같고
+			isTreeEqual(firstTree->rightChild, secondTree->rightChild)));			//			2) 자식노드의 오른쪽 자식노드가 같다.
 }
 
+// The Satisfiablilty Problem 
 typedef enum{not, and, or, true, false}logical;
 typedef struct satiNode* satiPointer;
 typedef struct satiNode
@@ -201,7 +213,27 @@ typedef struct satiNode
 	satiPointer satiRight;
 };
 
-void postOrderEval(satiPointer node);
+//void postOrderEval(satiPointer node);															// 함수의 작동 프로세스가 Traversal 함수와 같으므로 생략한다.
+
+// 5.5 THREADED BINARY TREES
+typedef struct Thread* threadPointer;
+typedef struct Thread
+{
+	threadPointer leftChild;
+	threadPointer rightChild;
+	short int leftThread;
+	short int rightThread;
+	char data;
+}Thread;
+
+threadPointer initThreadTree(char item);
+int IsThreadTreeEmpty(threadPointer tree);
+threadPointer insucc(threadPointer tree);
+threadPointer inpred(threadPointer tree);
+threadPointer makeThreadTree(char item, threadPointer leftTree, threadPointer rightTree);
+threadPointer getLeftThread(threadPointer tree);
+threadPointer getRightThread(threadPointer tree);
+char getThreadElement(threadPointer tree);
 
 void main()
 {
@@ -244,3 +276,59 @@ void main()
 
 	return;
 }
+
+threadPointer initThreadTree(char item)
+{
+	threadPointer tempThread = malloc(sizeof(Thread));
+	tempThread->data = item;
+	tempThread->leftChild = NULL;
+	tempThread->rightChild = NULL;
+	tempThread->leftThread = NULL;
+	tempThread->rightThread = NULL;
+	return tempThread;
+}
+
+int IsThreadTreeEmpty(threadPointer tree)
+{
+	if (
+		tree->leftChild == tree->leftThread &&
+		tree->rightChild == tree->rightThread &&
+		tree->leftThread == 1 &&
+		tree->rightThread == 0
+		)
+	{
+		return 1;
+	}
+	else
+	{
+		return 0;
+	}
+}
+
+threadPointer insucc(threadPointer tree)
+/* find the inorder successor of tree in a threaded binary tree*/
+{
+	threadPointer temp = tree->rightChild;
+	if (!tree->rightThread)
+	{
+		while (!temp->leftThread);
+		{
+			temp = temp->leftChild;
+		}
+	}
+	return temp;
+}
+
+threadPointer inpred(threadPointer tree)
+{
+	threadPointer temp = tree->leftChild;
+	if (!tree->leftThread)
+	{
+		while (!temp->rightThread);
+		{
+			temp = temp->rightChild;
+		}
+	}
+	return temp;
+}
+
