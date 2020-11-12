@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+
 // 5.2 BINARY TREES
 typedef struct Node* treePointer;
 typedef struct Node
@@ -9,6 +10,8 @@ typedef struct Node
 	treePointer leftChild;
 	treePointer rightChild;
 }Node;
+
+treePointer* stack;
 
 treePointer initBinTree(char item)
 {
@@ -72,12 +75,91 @@ void postOrder(treePointer ptr)
 		printf("%c ", getElement(ptr));
 	}
 }
-void iter_inorder(treePointer node);
-void level_order(treePointer ptr);
+
+void add(int* topPointer, treePointer node)
+{
+	stack[++(*topPointer)] = node;
+}
+treePointer delete(int* topPointer)
+{
+	if (*topPointer == -1)
+	{
+		return NULL;
+	}
+	treePointer node = stack[*topPointer];
+	stack[(*topPointer)--] = NULL;
+	return node;
+}
+
+void addq(int front, int* rear, treePointer ptr)
+{
+
+}
+
+treePointer deleteq(int* front, int rear)
+{
+	if (1)
+	{
+		return;						/* empty Queue */
+	}
+
+
+	return;							/* return treePointer */
+}
+
+void iter_inorder(treePointer node)
+{
+	int top = -1;												/* initialize stack */
+	for (; ; )
+	{
+		for (; node; node = node->leftChild)
+		{
+			add(&top, node);								/* add to stack */
+		}
+		node = delete(&top);							/* delete from stack */
+		if (!node)												/* empty stack */
+		{
+			break;
+		}
+		printf("%c ", node->data);
+		node = node->rightChild;
+	}
+}
+
+void level_order(treePointer ptr)
+{
+	int front = 0;
+	int rear = 0;
+	treePointer queue[999];
+	if (!ptr)
+	{
+		return;														/* empty tree */
+	}
+	addq(front, &rear, ptr);
+	for (; ; )
+	{
+		ptr = deleteq(&front, rear);					/* empty list returns NULL */
+		if (ptr)
+		{
+			if (ptr->leftChild)
+			{
+				addq(front, &rear, ptr->leftChild);
+			}
+			if (ptr->rightChild)
+			{
+				addq(front, &rear, ptr->rightChild);
+			}
+		}
+		else
+		{
+			break;
+		}
+	}
+}
 
 // 5.4 ADDITIONAL BINARY TREE OPERATIONS
-treePointer copyTree(treePointer originalTree);
-int isTreeEqual(treePointer firstTree, treePointer secondTree);
+//treePointer copyTree(treePointer originalTree);
+//int isTreeEqual(treePointer firstTree, treePointer secondTree);
 
 typedef enum{not, and, or, true, false}logical;
 typedef struct satiNode* satiPointer;
@@ -91,8 +173,12 @@ typedef struct satiNode
 
 void postOrderEval(satiPointer node);
 
+
+
 void main()
 {
+	stack = malloc(999 * sizeof(treePointer));
+
 	treePointer node1 = initBinTree('A');
 	treePointer node2 = initBinTree('B');
 	treePointer node3 = initBinTree('C');
@@ -104,12 +190,14 @@ void main()
 	treePointer node8 = makeBinTree('*', node7, node4);
 	treePointer node9 = makeBinTree('+', node8, node5);
 
-	inOrder(node9);
+	/*inOrder(node9);
 	printf("\n");
 	preOrder(node9);
 	printf("\n");
 	postOrder(node9);
-	printf("\n");
+	printf("\n");*/
+
+	iter_inorder(node9);
 
 	return;
 }
