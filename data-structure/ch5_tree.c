@@ -12,6 +12,7 @@ typedef struct Node
 }Node;
 
 treePointer* stack;
+treePointer* queue;
 
 treePointer initBinTree(char item)
 {
@@ -90,21 +91,20 @@ treePointer delete(int* topPointer)
 	stack[(*topPointer)--] = NULL;
 	return node;
 }
-
 void addq(int front, int* rear, treePointer ptr)
 {
-
+	queue[(*rear)++] = ptr;
 }
-
 treePointer deleteq(int* front, int rear)
 {
-	if (1)
+	if (*front == rear)
 	{
-		return;						/* empty Queue */
+		return NULL;						/* empty Queue */
 	}
+	treePointer node = queue[*front];
+	queue[(*front)++] = NULL;
 
-
-	return;							/* return treePointer */
+	return node;							/* return treePointer */
 }
 
 void iter_inorder(treePointer node)
@@ -130,7 +130,6 @@ void level_order(treePointer ptr)
 {
 	int front = 0;
 	int rear = 0;
-	treePointer queue[999];
 	if (!ptr)
 	{
 		return;														/* empty tree */
@@ -141,6 +140,7 @@ void level_order(treePointer ptr)
 		ptr = deleteq(&front, rear);					/* empty list returns NULL */
 		if (ptr)
 		{
+			printf("%c ", getElement(ptr));
 			if (ptr->leftChild)
 			{
 				addq(front, &rear, ptr->leftChild);
@@ -177,7 +177,8 @@ void postOrderEval(satiPointer node);
 
 void main()
 {
-	stack = malloc(999 * sizeof(treePointer));
+	stack = malloc(100 * sizeof(treePointer));
+	queue = malloc(100 * sizeof(treePointer));
 
 	treePointer node1 = initBinTree('A');
 	treePointer node2 = initBinTree('B');
@@ -197,7 +198,9 @@ void main()
 	postOrder(node9);
 	printf("\n");*/
 
-	iter_inorder(node9);
+	//iter_inorder(node9);
+
+	level_order(node9);
 
 	return;
 }
