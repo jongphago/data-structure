@@ -99,12 +99,12 @@ treePointer deleteq(int* front, int rear)
 {
 	if (*front == rear)
 	{
-		return NULL;						/* empty Queue */
+		return NULL;											/* empty Queue */
 	}
 	treePointer node = queue[*front];
 	queue[(*front)++] = NULL;
 
-	return node;							/* return treePointer */
+	return node;												/* return treePointer */
 }
 
 void iter_inorder(treePointer node)
@@ -158,8 +158,38 @@ void level_order(treePointer ptr)
 }
 
 // 5.4 ADDITIONAL BINARY TREE OPERATIONS
-//treePointer copyTree(treePointer originalTree);
-//int isTreeEqual(treePointer firstTree, treePointer secondTree);
+treePointer copyTree(treePointer originalTree)
+/* this function returns a treePointer to an exact copy
+	of the original tree */
+{
+	treePointer tempNode;
+	if (originalTree)
+	{
+		tempNode = malloc(sizeof(Node));
+		if (tempNode == NULL)
+		{
+			printf("Memory Allocation Error");
+			exit(-1);
+		}
+		tempNode->leftChild = copyTree(originalTree->leftChild);
+		tempNode->rightChild = copyTree(originalTree->rightChild);
+		tempNode->data = originalTree->data;
+		return tempNode;
+	}
+	else
+	{
+		return NULL;
+	}
+}
+int isTreeEqual(treePointer firstTree, treePointer secondTree)
+/* function returns FALSE if the binary trees first and
+	second are not equal, otherwise it returns TRUE */
+{
+	return((!firstTree && !secondTree) ||
+		(firstTree && secondTree && (firstTree->data == secondTree->data) &&
+			isTreeEqual(firstTree->leftChild, secondTree->leftChild) &&
+			isTreeEqual(firstTree->rightChild, secondTree->rightChild)));
+}
 
 typedef enum{not, and, or, true, false}logical;
 typedef struct satiNode* satiPointer;
@@ -173,13 +203,8 @@ typedef struct satiNode
 
 void postOrderEval(satiPointer node);
 
-
-
 void main()
 {
-	stack = malloc(100 * sizeof(treePointer));
-	queue = malloc(100 * sizeof(treePointer));
-
 	treePointer node1 = initBinTree('A');
 	treePointer node2 = initBinTree('B');
 	treePointer node3 = initBinTree('C');
@@ -191,6 +216,7 @@ void main()
 	treePointer node8 = makeBinTree('*', node7, node4);
 	treePointer node9 = makeBinTree('+', node8, node5);
 
+	/* Tree Traversal with Recursion */
 	/*inOrder(node9);
 	printf("\n");
 	preOrder(node9);
@@ -198,9 +224,23 @@ void main()
 	postOrder(node9);
 	printf("\n");*/
 
+	/* Iterative  Inorder Traversal */
+	//stack = malloc(100 * sizeof(treePointer));
 	//iter_inorder(node9);
 
-	level_order(node9);
+	/* Level Order Traversal */
+	//queue = malloc(100 * sizeof(treePointer));
+	//level_order(node9);
+
+	/* Copying  Binary Trees*/
+	//treePointer copyNode =  copyTree(node9);
+	//printf("%c\n", copyNode->leftChild->leftChild->leftChild->rightChild->data);
+
+	/* Testing For Equality Of Binary Trees */
+	// 함수 [ copyTree ] 의 반환값 " copyNode "가 필요합니다.
+	//printf("%d\n", isTreeEqual(node9, copyNode));
+
+
 
 	return;
 }
